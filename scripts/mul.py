@@ -38,8 +38,8 @@ def test_triples(p1: list[Triple], p2: list[Triple]):
 
 
 if __name__ == '__main__':
-    p1_triples = load_triples('p1.csv')
-    p2_triples = load_triples('p2.csv')
+    p1_triples = load_triples('../output/p1.csv')
+    p2_triples = load_triples('../output/p2.csv')
 
     test_triples(p1_triples, p2_triples)
 

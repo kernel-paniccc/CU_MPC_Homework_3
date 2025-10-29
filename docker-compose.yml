@@ -1,19 +1,36 @@
 services:
+  worker0:
+    build: .
+    command: python -m worker --rank 0 --world_size 2 call scripts.beaver_phe:main
+    environment:
+      - MASTER_ADDR=worker0
+      - MASTER_PORT=29500
+      - WORLD_SIZE=2
+      - RANK=0
+      - BEAVER_TRICKS_COUNT=50
+      - OUT_DIR=/app/output
+    volumes:
+      - ./output:/app/output
+      - ./config.py:/app/config.py
+    networks:
+      - testnet
+
   worker1:
     build: .
-    command: python -m worker --rank 0 --world_size 3 call tasks.collective:all_gather
+    command: python -m worker --rank 1 --world_size 2 call scripts.beaver_phe:main
     environment:
       - MASTER_ADDR=worker1
       - MASTER_PORT=29500
-  worker2:
-    build: distributed-lab
-    command: python -m worker --rank 1 --world_size 3 call tasks.collective:all_gather
-    environment:
-      - MASTER_ADDR=worker1
-      - MASTER_PORT=29500
-  worker3:
-    build: .
-    command: python -m worker --rank 2 --world_size 3 call tasks.collective:all_gather
-    environment:
-      - MASTER_ADDR=worker1
-      - MASTER_PORT=29500
+      - WORLD_SIZE=2
+      - RANK=1
+      - BEAVER_TRICKS_COUNT=50
+      - OUT_DIR=/app/output
+    volumes:
+      - ./output:/app/output
+      - ./config.py:/app/config.py
+    networks:
+      - testnet
+
+networks:
+  testnet:
+    driver: bridge
