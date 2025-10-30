@@ -1,4 +1,3 @@
-from __future__ import annotations
 import pickle
 from typing import Any
 import torch
@@ -6,8 +5,6 @@ import torch.distributed as dist
 
 
 def send_bytes(dst: int, b: bytes) -> None:
-    if not dist.is_initialized():
-        raise RuntimeError("torch.distributed is not initialized")
     length = torch.tensor([len(b)], dtype=torch.long)
     dist.send(length, dst=dst)
     if len(b) > 0:

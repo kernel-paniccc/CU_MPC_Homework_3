@@ -19,7 +19,7 @@ services:
     build: .
     command: python -m worker --rank 1 --world_size 2 call scripts.beaver_phe:main
     environment:
-      - MASTER_ADDR=worker1
+      - MASTER_ADDR=worker0
       - MASTER_PORT=29500
       - WORLD_SIZE=2
       - RANK=1

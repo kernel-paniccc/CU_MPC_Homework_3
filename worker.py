@@ -9,21 +9,27 @@ def main():
 
     subparsers = parser.add_subparsers(dest="task", required=True)
 
+    # add registered tasks (if any)
     for name in REGISTRY.keys():
         subparsers.add_parser(name)
 
     dotted = subparsers.add_parser("call")
-    dotted.add_argument("target", help="dotted path, напр. tasks.collective:reduce")
+    dotted.add_argument("target", help="dotted path, e.g. scripts.beaver_main:main")
 
     args = parser.parse_args()
 
     if args.task == "call":
         module_path, func_name = args.target.split(":")
-        fn = getattr(import_module(module_path), func_name)
+        module = import_module(module_path)
+        fn = getattr(module, func_name)
     else:
         fn = REGISTRY[args.task]
 
-    fn(rank=args.rank, world_size=args.world_size)
+    # call with keywords, fallback to positional if needed
+    try:
+        fn(rank=args.rank, world_size=args.world_size)
+    except TypeError:
+        fn(args.rank, args.world_size)
 
 if __name__ == "__main__":
     main()

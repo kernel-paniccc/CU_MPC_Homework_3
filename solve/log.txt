@@ -1,0 +1,12 @@
+Attaching to worker0-1, worker1-1
+worker0-1  | [Gloo] Rank 0 is connected to 1 peer ranks. Expected number of connected peer ranks is : 1
+worker1-1  | [Gloo] Rank 1 is connected to 1 peer ranks. Expected number of connected peer ranks is : 1
+worker1-1  | [rank 1] wrote /app/output/p2.csv
+worker0-1  | [rank 0] wrote /app/output/p1.csv
+worker1-1 exited with code 0
+worker0-1 exited with code 0
+
+-----
+
+C:\Users\---\AppData\Local\Programs\Python\Python310\python.exe C:\Users\---\PycharmProjects\pythonProject11\scripts\mul.py
+All triples are correct

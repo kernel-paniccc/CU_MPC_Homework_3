@@ -90,5 +90,4 @@ def main(rank: int, world_size: int):
             for a, b, c in out_triples:
                 writer.writerow([a, b, c])
         print(f"[rank 1] wrote {outpath}", file=sys.stderr)
-
     dist.barrier()
